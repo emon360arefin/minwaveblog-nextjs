@@ -15,7 +15,7 @@ const Footer = () => {
 
 
     return (
-        <div className='bg-theme-accent py-16 z-40 border-t'>
+        <div className='bg-[#e5edf8] py-16 z-40 border-t'>
             <div className='max-w-7xl mx-auto px-2'>
                 <div className='  grid md:grid-cols-6 grid-col-1  gap-6'>
                     <div className='col-span-2 pr-6 pl-12 md:pl-0 flex flex-col justify-start items-start'>
