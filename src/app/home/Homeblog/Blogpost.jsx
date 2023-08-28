@@ -6,6 +6,7 @@ import { BiSolidUserCircle } from 'react-icons/bi';
 import { toast } from 'react-hot-toast';
 import { AuthContext } from '../../../Components/Authprovider/Authprovider';
 import Loader from '../../../Components/Shared/Loader/Loader';
+import Image from 'next/image';
 
 const Blogpost = () => {
 
@@ -31,7 +32,7 @@ const Blogpost = () => {
         fetch(`${import.meta.env.VITE_SERVER_API}/api/blogs/${id}`)
             .then(res => res.json())
             .then(data => setSingleblog(data))
-    }, [])
+    }, [id])
 
 
     const handleCommentSubmit = (e, displayName, photoURL, id) => {
@@ -86,7 +87,7 @@ const Blogpost = () => {
                         <div className='flex flex-col gap-4 md:col-span-5 '>
                             <h2 className='text-4xl font-semibold'>{singleblog?.title}</h2>
                             <div className='flex gap-4'>
-                                <img className='rounded-full w-[56px] h-[56px] border-2' src={singleblog?.author_img} alt="" />
+                                <Image width={500} height={500} className='rounded-full w-[56px] h-[56px] border-2' src={singleblog?.author_img} alt="" />
                                 <div>
                                     <h2 className='text-xl font-semibold'>{singleblog?.author}</h2>
 
@@ -104,7 +105,7 @@ const Blogpost = () => {
                                 }
                             </div>
 
-                            <img className='rounded-md border w-[160%] h-[90%] object-cover border-slate-200' src={singleblog?.image_url} alt="" />
+                            <Image width={500} height={500} className='rounded-md border w-[160%] h-[90%] object-cover border-slate-200' src={singleblog?.image_url} alt="" />
 
 
 
@@ -127,7 +128,7 @@ const Blogpost = () => {
                                                     !user ? <Link to='/login' state={{ from: location }} replace>
                                                         <BiSolidUserCircle className='text-4xl'></BiSolidUserCircle></Link> :
 
-                                                        <img className=' rounded-full border' src={user?.photoURL} alt="" />
+                                                        <Image width={500} height={500} className=' rounded-full border' src={user?.photoURL} alt="" />
                                                 }
                                             </div>
 
@@ -152,10 +153,10 @@ const Blogpost = () => {
                                     <div className=' overflow-hidden h-[calc(100% - 296px)] pr-2'>
                                         <h2 className='text-lg font-semibold mb-4'>Comments</h2>
                                         {
-                                            singleblog?.comments.map(comment =>
-                                                <div className='flex gap-2 mb-4'>
+                                            singleblog?.comments.map((comment, index) =>
+                                                <div key={index} className='flex gap-2 mb-4'>
 
-                                                    <img className='w-8 h-8 rounded-full border' src={comment?.user_img} alt="" />
+                                                    <Image width={500} height={500} className='w-8 h-8 rounded-full border' src={comment?.user_img} alt="" />
                                                     <div className='bg-slate-100 rounded-md py-2 px-4'>
                                                         <h2 className=' font-semibold'>{comment.user}</h2>
                                                         <p>{comment.text}</p>

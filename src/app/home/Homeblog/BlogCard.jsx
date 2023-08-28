@@ -92,7 +92,7 @@ const BlogCard = (props) => {
                     setLikes(0)
                 }
             })
-    }, [likes, fav])
+    }, [_id, likes, fav])
 
     // Check Favorite
     // useEffect(() => {
