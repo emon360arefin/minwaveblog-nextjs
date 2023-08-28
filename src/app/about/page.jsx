@@ -2,22 +2,27 @@ import React from "react";
 import Image from "next/image";
 import Button from "@/components/Shared/Button/Button";
 import Link from "next/link";
-import styles from "./page.module.css";
+import Heading from "@/components/Heading/Heading";
+
 
 const About = () => {
     return (
-        <div className=' py-16 md:py-20'>
+        <div className=' py-16 md:py-20 bg-theme-accent'>
 
 
 
             <div className="max-w-7xl mx-auto px-2">
-                <div className='flex flex-col gap-4'>
+
+                <Heading heading='Discover Our Story: Unveiling the Journey Behind Our Blog'
+                    subheading='Embark on a Journey of Insight and Inspiration: Exploring Stories, Ideas, and Experiences that Shape Our Blogging Narrative'></Heading>
+
+                <div className='flex flex-col gap-4 mt-10'>
                     <div className="h-72 overflow-hidden relative rounded">
 
                         <Image
-                            src="https://images.pexels.com/photos/3194521/pexels-photo-3194521.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                            src="/team.jpg"
                             fill={true}
-                            className={styles.img}
+
                             objectFit="cover"
                             objectPosition="center center"
                             alt=""
@@ -25,7 +30,7 @@ const About = () => {
                         />
                     </div>
                     <div className="flex flex-col gap-2">
-                        <h1 className="text-3xl font-semibold">Digital Storytellers</h1>
+                        <h1 className="text-3xl font-semibold text-theme-primary">Digital Storytellers</h1>
                         <h2 className="">
                             Handcrafting award winning digital experiences
                         </h2>
@@ -33,7 +38,7 @@ const About = () => {
                 </div>
                 <div className=" flex flex-col md:flex-row gap-4">
                     <div className="flex flex-col gap-2 mt-4">
-                        <h1 className="text-2xl font-semibold">Who Are We?</h1>
+                        <h1 className="text-2xl font-semibold text-theme-primary">Who Are We?</h1>
                         <p className="">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus
                             quae dolor, optio voluptatibus magnam iure esse tempora beatae. A
@@ -50,7 +55,7 @@ const About = () => {
                         </p>
                     </div>
                     <div className="flex flex-col gap-2 mt-4">
-                        <h1 className="text-2xl font-semibold">What We Do?</h1>
+                        <h1 className="text-2xl font-semibold text-theme-primary">What We Do?</h1>
                         <p className="">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus
                             quae dolor, optio voluptatibus magnam iure esse tempora beatae, a
@@ -65,7 +70,7 @@ const About = () => {
 
                             </div>
                         </p>
-                        <Link className="mt-1" href='/contact'>
+                        <Link className="mt-2" href='/contact'>
                             <Button width='w-32'>Contact</Button>
                         </Link>
                     </div>

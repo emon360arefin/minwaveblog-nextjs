@@ -7,6 +7,7 @@ import Link from 'next/link'
 import HeroSection from './home/HeroSection'
 import BlogSection from './home/BlogSection'
 import HomeBlog from './home/Homeblog/HomeBlog'
+import About from './about/page'
 
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
         <div>
             <HeroSection></HeroSection>
             <HomeBlog></HomeBlog>
+            <About></About>
         </div>
     )
 }
