@@ -23,7 +23,7 @@ const BlogCard = (props) => {
     // const displayName = user?.displayName;
     // const photoURL = user?.photoURL;
 
-    const { id, _id, title, author, author_img, published_date, category, tags, content, image_url, comments } = props.blog
+    const { _id, title, author, author_img, published_date, category, tags, content, image_url, comments } = props.blog
 
     const setBlogs = props.setBlogs;
 
@@ -38,44 +38,44 @@ const BlogCard = (props) => {
     const truncatedText = truncatedWords.join(' ');
 
 
-    const handleComment = (e, displayName, photoURL, _id) => {
+    // const handleComment = (e, displayName, photoURL, _id) => {
 
-        e.preventDefault();
-        console.log("Comment hit");
+    //     e.preventDefault();
+    //     console.log("Comment hit");
 
-        if (!displayName) {
-            toast.error("Please Login First ")
-            return
-        }
+    //     if (!displayName) {
+    //         toast.error("Please Login First ")
+    //         return
+    //     }
 
-        const user = displayName;
-        const user_img = photoURL;
-        const text = e.target.comment.value;
+    //     const user = displayName;
+    //     const user_img = photoURL;
+    //     const text = e.target.comment.value;
 
-        const newComment = {
-            user, user_img, text
-        }
+    //     const newComment = {
+    //         user, user_img, text
+    //     }
 
-        console.log(newComment, _id);
+    //     console.log(newComment, _id);
 
 
-        fetch(`https://mindwaveblog-server.up.railway.app/api/blogs/${_id}`, {
-            method: 'PUT',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(newComment)
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log("Response Data", data)
-                fetch(`https://mindwaveblog-server.up.railway.app/api/blogs`)
-                    .then(res => res.json())
-                    .then(data => setBlogs(data))
-                e.target.reset()
-            })
+    //     fetch(`https://mindwaveblog-server.up.railway.app/api/blogs/${_id}`, {
+    //         method: 'PUT',
+    //         headers: {
+    //             'content-type': 'application/json'
+    //         },
+    //         body: JSON.stringify(newComment)
+    //     })
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             console.log("Response Data", data)
+    //             fetch(`https://mindwaveblog-server.up.railway.app/api/blogs`)
+    //                 .then(res => res.json())
+    //                 .then(data => setBlogs(data))
+    //             e.target.reset()
+    //         })
 
-    }
+    // }
 
 
     // Like Count 

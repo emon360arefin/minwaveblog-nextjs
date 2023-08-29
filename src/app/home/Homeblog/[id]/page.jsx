@@ -14,11 +14,7 @@ import Loader from '@/components/Loader/Loader';
 const Blogpost = ({ params }) => {
 
 
-
-
     const [singleblog, setSingleblog] = useState(null)
-
-    const { title, author, author_img, published_date, category, tags, content, image_url, comments } = { singleblog }
 
     const paragraphs = singleblog?.content.split('\n\n');
 
@@ -35,44 +31,44 @@ const Blogpost = ({ params }) => {
     }, [params.id])
 
 
-    const handleCommentSubmit = (e, displayName, photoURL, id) => {
+    // const handleCommentSubmit = (e, displayName, photoURL, params.id) => {
 
-        e.preventDefault();
+    //     e.preventDefault();
 
-        if (!displayName) {
-            toast.error("Please Login First ")
-            return
-        }
+    //     if (!displayName) {
+    //         toast.error("Please Login First ")
+    //         return
+    //     }
 
-        const user = displayName;
-        const user_img = photoURL;
-        const text = e.target.comment.value;
+    //     const user = displayName;
+    //     const user_img = photoURL;
+    //     const text = e.target.comment.value;
 
-        const newComment = {
-            user, user_img, text
-        }
+    //     const newComment = {
+    //         user, user_img, text
+    //     }
 
-        console.log("new Comment", newComment);
+    //     console.log("new Comment", newComment);
 
-        fetch(`https://mindwaveblog-server.up.railway.app/api/blogs/${id}`, {
-            method: 'PUT',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(newComment)
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log("Response Data", data)
-                fetch(`https://mindwaveblog-server.up.railway.app/api/blogs/${id}`)
-                    .then(res => res.json())
-                    .then(data => setSingleblog(data))
-                e.target.reset()
-            })
+    //     fetch(`https://mindwaveblog-server.up.railway.app/api/blogs/${params.id}`, {
+    //         method: 'PUT',
+    //         headers: {
+    //             'content-type': 'application/json'
+    //         },
+    //         body: JSON.stringify(newComment)
+    //     })
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             console.log("Response Data", data)
+    //             fetch(`https://mindwaveblog-server.up.railway.app/api/blogs/${params.id}`)
+    //                 .then(res => res.json())
+    //                 .then(data => setSingleblog(data))
+    //             e.target.reset()
+    //         })
 
-    }
+    // }
 
-
+    // onSubmit={(e) => handleCommentSubmit(e, displayName, photoURL, params.id)}
 
     return (
         <div className='bg-white py-10 md:py-12'>
@@ -132,7 +128,7 @@ const Blogpost = ({ params }) => {
                                                     <BiSolidUserCircle className='text-4xl'></BiSolidUserCircle></Link>
                                             </div>
 
-                                            <form onSubmit={(e) => handleCommentSubmit(e, displayName, photoURL, id)} className='w-full' action="">
+                                            <form  className='w-full' action="">
                                                 <input
                                                     name='comment'
                                                     required
