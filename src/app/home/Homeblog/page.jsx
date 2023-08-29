@@ -7,6 +7,7 @@ import Loader from '@/components/Loader/Loader';
 import BlogCard from './BlogCard';
 
 
+
 const HomeBlog = () => {
 
     const [blogs, setBlogs] = useState(null)
