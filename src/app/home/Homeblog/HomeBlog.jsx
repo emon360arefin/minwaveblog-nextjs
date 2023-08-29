@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import BlogCard from './BlogCard';
+import BlogCard from './page';
 import Heading from '@/components/Heading/Heading';
 import Loader from '@/components/Loader/Loader';
 

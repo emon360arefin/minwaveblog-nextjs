@@ -1,21 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+'use client'
+
+
+import React, { useEffect, useState } from 'react';
+// import { Link, useLocation, useParams } from 'react-router-dom';
 import moment from 'moment/moment';
 import { BiSolidUserCircle } from 'react-icons/bi';
 
 import { toast } from 'react-hot-toast';
-import { AuthContext } from '../../../Components/Authprovider/Authprovider';
-import Loader from '../../../Components/Shared/Loader/Loader';
 import Image from 'next/image';
+import Link from 'next/link';
+import Loader from '@/components/Loader/Loader';
 
-const Blogpost = () => {
+const Blogpost = ({ params }) => {
 
-    const { user } = useContext(AuthContext)
 
-    const displayName = user?.displayName;
-    const photoURL = user?.photoURL;
 
-    const { id } = useParams()
+
     const [singleblog, setSingleblog] = useState(null)
 
     const { title, author, author_img, published_date, category, tags, content, image_url, comments } = { singleblog }
@@ -29,10 +29,10 @@ const Blogpost = () => {
 
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_SERVER_API}/api/blogs/${id}`)
+        fetch(`https://mindwaveblog-server.up.railway.app/api/blogs/${params.id}`)
             .then(res => res.json())
             .then(data => setSingleblog(data))
-    }, [id])
+    }, [params.id])
 
 
     const handleCommentSubmit = (e, displayName, photoURL, id) => {
@@ -54,7 +54,7 @@ const Blogpost = () => {
 
         console.log("new Comment", newComment);
 
-        fetch(`${import.meta.env.VITE_SERVER_API}/api/blogs/${id}`, {
+        fetch(`https://mindwaveblog-server.up.railway.app/api/blogs/${id}`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'
@@ -64,16 +64,13 @@ const Blogpost = () => {
             .then(res => res.json())
             .then(data => {
                 console.log("Response Data", data)
-                fetch(`${import.meta.env.VITE_SERVER_API}/api/blogs/${id}`)
+                fetch(`https://mindwaveblog-server.up.railway.app/api/blogs/${id}`)
                     .then(res => res.json())
                     .then(data => setSingleblog(data))
                 e.target.reset()
             })
 
     }
-
-
-    const location = useLocation()
 
 
 
@@ -124,12 +121,15 @@ const Blogpost = () => {
                                     <div className='w-full pb-[1px] sticky top-0 bg-white'>
                                         <div className='flex gap-2 mb-4'>
                                             <div className='w-10 h-10'>
-                                                {
-                                                    !user ? <Link to='/login' state={{ from: location }} replace>
+                                                {/* {
+                                                    !user ? <Link href='/login' state={{ from: location }} replace>
                                                         <BiSolidUserCircle className='text-4xl'></BiSolidUserCircle></Link> :
 
                                                         <Image width={500} height={500} className=' rounded-full border' src={user?.photoURL} alt="" />
-                                                }
+                                                } */}
+
+                                                <Link href='/login' state={{ from: location }} replace>
+                                                    <BiSolidUserCircle className='text-4xl'></BiSolidUserCircle></Link>
                                             </div>
 
                                             <form onSubmit={(e) => handleCommentSubmit(e, displayName, photoURL, id)} className='w-full' action="">

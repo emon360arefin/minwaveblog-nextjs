@@ -1,3 +1,6 @@
+'use client'
+
+
 import moment from 'moment/moment';
 import React, { useContext, useEffect, useState } from 'react';
 import { BiSolidUserCircle } from 'react-icons/bi';
@@ -269,7 +272,7 @@ const BlogCard = (props) => {
                     </div>
 
                     <Link
-                        href={`/blogpost/${_id}`}
+                        href={`/home/homeblog/${_id}`}
                         className=' overflow-hidden rounded-md'>
                         <Image width={500} height={500} className='rounded-md h-[250px] w-[480px] object-cover  object-center border-slate-200' src={image_url} alt="" />
                     </Link>
@@ -278,7 +281,7 @@ const BlogCard = (props) => {
                     <p className=''>
                         {truncatedText} ...
                         <span className='pl-1 font-semibold text-theme-primary text-lg'>
-                            <Link href={`/blogpost/${_id}`}>
+                            <Link href={`/home/homeblog/${_id}`}>
                                 Read More
                             </Link>
                         </span>
