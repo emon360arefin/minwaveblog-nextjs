@@ -1,350 +1,101 @@
 'use client'
 
+import { useEffect, useState } from 'react';
 
-import moment from 'moment/moment';
-import React, { useContext, useEffect, useState } from 'react';
-import { BiSolidUserCircle } from 'react-icons/bi';
-import { MdFavorite } from 'react-icons/md';
-import { BsFillHandThumbsUpFill, BsHandThumbsDownFill } from 'react-icons/bs';
-import { toast } from 'react-hot-toast';
-import Link from 'next/link'
-import Image from 'next/image';
-// import { AuthContext } from '../../../Components/Authprovider/Authprovider';
-
-const BlogCard = (props) => {
-
-    const [hover, setHover] = useState(false)
-    const [likes, setLikes] = useState(0)
-    const [fav, setFav] = useState(false)
-
-    // const { user } = useContext(AuthContext)
-    // const email = user?.email;
-
-    // const displayName = user?.displayName;
-    // const photoURL = user?.photoURL;
-
-    const { _id, title, author, author_img, published_date, category, tags, content, image_url, comments } = props.blog
-
-    const setBlogs = props.setBlogs;
-
-    const paragraphs = content.split('\n\n');
-    const renderedParagraphs = paragraphs?.map((paragraph, index) => (
-        <p key={index}>{paragraph}</p>
-    ));
+import Heading from '@/components/Heading/Heading';
+import Loader from '@/components/Loader/Loader';
+import BlogCard from './BlogCard';
 
 
-    const words = content.split(' ');
-    const truncatedWords = words.slice(0, 20);
-    const truncatedText = truncatedWords.join(' ');
+const HomeBlog = () => {
 
-
-    // const handleComment = (e, displayName, photoURL, _id) => {
-
-    //     e.preventDefault();
-    //     console.log("Comment hit");
-
-    //     if (!displayName) {
-    //         toast.error("Please Login First ")
-    //         return
-    //     }
-
-    //     const user = displayName;
-    //     const user_img = photoURL;
-    //     const text = e.target.comment.value;
-
-    //     const newComment = {
-    //         user, user_img, text
-    //     }
-
-    //     console.log(newComment, _id);
-
-
-    //     fetch(`https://mindwaveblog-server.up.railway.app/api/blogs/${_id}`, {
-    //         method: 'PUT',
-    //         headers: {
-    //             'content-type': 'application/json'
-    //         },
-    //         body: JSON.stringify(newComment)
-    //     })
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             console.log("Response Data", data)
-    //             fetch(`https://mindwaveblog-server.up.railway.app/api/blogs`)
-    //                 .then(res => res.json())
-    //                 .then(data => setBlogs(data))
-    //             e.target.reset()
-    //         })
-
-    // }
-
-
-    // Like Count 
+    const [blogs, setBlogs] = useState(null)
+    const [tags, setTags] = useState([])
+    const [newtag, setNewtag] = useState([])
+    const [selectedTag, setSelectedTag] = useState('All')
 
     useEffect(() => {
-        fetch(`https://mindwaveblog-server.up.railway.app/api/blogs/${_id}`)
+        fetch(`https://mindwaveblog-server.up.railway.app/api/blogs`)
             .then(res => res.json())
             .then(data => {
-                if (data.likes) {
-                    setLikes(data?.likes?.length)
-                    console.log("Likes ", data?.likes?.length);
-                    if (data.likes.includes(email)) {
-                        console.log("Got it", email);
-                        setFav(true)
-                    }
-                } else {
-                    setLikes(0)
-                }
+                setBlogs(data)
             })
-    }, [_id, likes, fav])
+    }, [])
 
-    // Check Favorite
-    // useEffect(() => {
-    //     fetch(`https://mindwaveblog-server.up.railway.app/api/favorites/${email}`)
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             if (data.favoriteIds.includes(id)) {
-    //                 setFav(true);
-
-    //             }
-    //         })
-    //         .catch(error => console.log("Error", error.message))
-    // }, [email, id])
-
-    const handleFavorite = (email, id) => {
-
-        if (!email) {
-            toast.error("Please login first to add favorite recipe")
-            return
-        }
-
-        // fetch(`${import.meta.env.VITE_SERVER_API}/api/favorites/${email}`)
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         if (!data) {
-        //             fetch(`${import.meta.env.VITE_SERVER_API}/api/favorites/${email}`, {
-        //                 method: 'PUT',
-        //                 headers: {
-        //                     'Content-Type': 'application/json'
-        //                 },
-        //                 body: JSON.stringify({ id: id })
-        //             })
-        //                 .then(response => response.json())
-        //                 .then(data => {
-
-
-        //                     console.log("data", data);
-
-        //                     if (data.modifiedCount > 0) {
-        //                         setFav(true)
-        //                         toast.success("Added to favorite")
-        //                     }
-        //                     else if (data.upsertedCount > 0) {
-        //                         setFav(true)
-        //                         toast.success("Added to favorite")
-        //                     } else if (!data.success) {
-        //                         toast.error("Server Error")
-        //                     } else {
-        //                         toast.error("Already Added 1")
-        //                     }
-        //                 })
-        //                 .catch(error => {
-        //                     console.error('An error occurred:', error);
-        //                 });
-        //         }
-
-        //         else {
-        //             fetch(`${import.meta.env.VITE_SERVER_API}/api/favorites/${email}`)
-        //                 .then(res => res.json())
-        //                 .then(data => {
-        //                     if (data.favoriteIds.includes(id)) {
-        //                         toast.error("Already Added")
-        //                     } else {
-        //                         fetch(`${import.meta.env.VITE_SERVER_API}/api/favorites/${email}`, {
-        //                             method: 'PUT',
-        //                             headers: {
-        //                                 'Content-Type': 'application/json'
-        //                             },
-        //                             body: JSON.stringify({ id: id })
-        //                         })
-        //                             .then(response => response.json())
-        //                             .then(data => {
-
-
-        //                                 console.log("data", data);
-
-        //                                 if (data.modifiedCount > 0) {
-        //                                     setFav(true)
-        //                                     toast.success("Added to favorite")
-        //                                 }
-        //                                 else if (data.upsertedCount > 0) {
-        //                                     setFav(true)
-        //                                     toast.success("Added to favorite")
-        //                                 } else {
-        //                                     toast.error("Already Added")
-
-        //                                 }
-        //                             })
-        //                             .catch(error => {
-        //                                 console.error('An error occurred:', error);
-        //                             });
-
-        //                     }
-        //                 })
-        //         }
-        //     })
-
-
-        fetch(`https://mindwaveblog-server.up.railway.app/api/blogs/${_id}`)
+    const refresh = () => {
+        fetch(`https://mindwaveblog-server.up.railway.app/api/blogs`)
             .then(res => res.json())
             .then(data => {
-                if (data.likes.includes(email)) {
-                    // Remove From the Array
-
-                    fetch(`https://mindwaveblog-server.up.railway.app/api/blogs/like/remove/${_id}`, {
-                        method: 'PUT',
-                        headers: {
-                            "content-type": "text/plain"
-                        },
-                        body: email
-                    })
-                        .then(res => res.json())
-                        .then(data => {
-                            console.log(data.message);
-                            if (data.message === "removed") {
-                                setFav(false)
-                                toast.error("Removed from favorite")
-                            }
-
-                        })
-
-
-                } else {
-                    // Add to the array
-                    console.log("Nothing");
-                    fetch(`https://mindwaveblog-server.up.railway.app/api/blogs/like/${_id}`, {
-                        method: 'PUT',
-                        headers: {
-                            "content-type": "text/plain"
-                        },
-                        body: email
-                    })
-                        .then(res => res.json())
-                        .then(data => {
-                            console.log("Added Data Message", data.message);
-                            if (data.message === "added") {
-                                setFav(true)
-                                toast.success("Added to favorite new")
-                            }
-                        })
-                }
+                setBlogs(data)
             })
-
     }
 
+
+    const allTags = blogs && tags.concat(...blogs.map(blog => blog.category));
+
+    allTags && allTags.map(tag => {
+        if (!newtag.includes(tag)) {
+            newtag.push(tag)
+        }
+    })
+
+
+    let filteredBlog = blogs && blogs.filter(blog => blog.category.includes(selectedTag))
+
+    if (selectedTag === "All") {
+        filteredBlog = blogs;
+        console.log("selectedTag1", selectedTag);
+    }
+
+
+    // console.log("selectedTag", selectedTag);
+
+
     return (
-        <div
-            onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
-            className='rounded-[11px] border border-slate-200 overflow-hidden  mb-6 relative'>
+        <div className='bg-white py-16 md:py-20'>
+            {
+                blogs ?
+                    <div className='max-w-7xl mx-auto px-2'>
+                        <Heading
+                            heading="Explore Intriguing Blogs"
+                            subheading="Dive into a curated collection of captivating blogs within your favorite categories. Feed your curiosity, expand your knowledge, and stay updated with the latest insights and trends that pique your interest."
+                        ></Heading>
 
-            {/* Pop Up */}
 
-            <div className={`bg-white opacity-[98%] shadow backdrop-blur-2xl h-12 absolute top-0  rounded-bl-[11px] transition-all ease-in-out duration-300 flex items-center gap-2 py-2 px-4   justify-between right-0`}>
+                        {/* Card Container */}
 
-                <MdFavorite onClick={() => handleFavorite(email, id)} className={`text-2xl cursor-pointer  hover:text-red-600 ${!fav ? 'text-slate-400' : 'text-red-600'} text-2xl`} ></MdFavorite>
-                <h2 className='text-xl'>{likes}</h2>
-            </div>
 
-            {/* Main Card Starts Here */}
-            <div className='bg-theme-accent p-4 rounded-[10px] grid grid-cols-1 md:grid-cols-7 gap-4 md:gap-8'>
-                <div className='flex flex-col gap-4 md:col-span-4 '>
-                    <h2 className='text-2xl font-semibold mt-10 md:mt-0'>{title}</h2>
-                    <div className='flex gap-4'>
-                        <Image width={500} height={500} className='rounded-full w-[56px] h-[56px] border-2' src={author_img} alt="" />
-                        <div>
-                            <h2 className='text-lg font-semibold'>{author}</h2>
+                        <div className='grid grid-cols-1 md:grid-cols-4  md:gap-8 mt-8 md:mt-16'>
 
-                            <p className='text-sm'>
+                            <div className='col-span-1 w-full h-min   bg-theme-accent p-4 rounded-md flex md:flex-col flex-wrap '>
+                                <h2 className='mb-4 text-lg w-full font-semibold'>Filter By Category</h2>
+                                <h2
+                                    onClick={() => setSelectedTag("All")}
+                                    className={`inline px-4 py-3 leading-none  md:w-full md:flex items-center md:pl-8 rounded-full mr-2 md:mt-0 mt-2 cursor-pointer hover:shadow-md  transition-all duration-200 ease-in-out select-none ${selectedTag === "All" ? 'bg-theme-primary text-white shadow-md' : 'bg-white hover:bg-theme-accent'} `}
+                                >All</h2>
                                 {
-                                    moment(published_date).format("MMM Do YY")
+                                    newtag && newtag.map((tag, index) => <h2
+                                        key={index}
+                                        onClick={() => setSelectedTag(tag)}
+                                        className={`md:w-full inline px-4 py-3 leading-none  md:flex items-start justify-start md:pl-8 rounded-full mr-2 mt-2 cursor-pointer hover:shadow-md  transition-all duration-200 ease-in-out select-none  ${tag === selectedTag ? 'bg-theme-primary text-white shadow-md' : 'bg-white hover:bg-theme-accent'} `}
+                                    >{tag}</h2>)
                                 }
-                            </p>
-                        </div>
-                    </div>
-
-                    <Link
-                        href={`/home/homeblog/${_id}`}
-                        className=' overflow-hidden rounded-md'>
-                        <Image width={500} height={500} className='rounded-md h-[250px] w-[480px] object-cover  object-center border-slate-200' src={image_url} alt="" />
-                    </Link>
-
-
-                    <p className=''>
-                        {truncatedText} ...
-                        <span className='pl-1 font-semibold text-theme-primary text-lg'>
-                            <Link href={`/home/homeblog/${_id}`}>
-                                Read More
-                            </Link>
-                        </span>
-                    </p>
-                </div>
-
-                {/* Comment*/}
-
-                <div className='md:col-span-3 w-full '>
-                    <div className='sticky top-24'>
-                        <h2 className='text-lg font-semibold mb-4'>Comments</h2>
-
-
-                        <div className='h-[35vh] overflow-auto pr-2'>
-                            {
-                                comments.map((comment, index) =>
-                                    <div key={index} className='flex gap-2 mb-4 '>
-
-                                        <Image width={500} height={500} className='w-8 h-8 rounded-full border' src={comment?.user_img} alt="" />
-                                        <div className='bg-white rounded-md py-2 px-4'>
-                                            <h2 className=' font-semibold'>{comment.user}</h2>
-                                            <p>{comment.text}</p>
-                                        </div>
-                                    </div>
-                                )
-                            }
-                        </div>
-
-
-                        <div className='w-full pt-4'>
-
-                            <div className='flex gap-2 mb-4'>
-
-                                <div className='w-8 h-8'>
-                                    <Link href='/login'>
-                                        <BiSolidUserCircle className='text-4xl'></BiSolidUserCircle></Link>
-
-
-
-                                </div>
-
-                                <form
-                                    onSubmit={(e) => handleComment(e, displayName, photoURL, _id)}
-                                    className='w-full' action="">
-                                    <input
-                                        name='comment'
-                                        required
-                                        placeholder='Write your comment'
-                                        className='w-full h-16 border border-sal border-slate-200  rounded-md px-4' type="text" />
-                                    <div className='flex justify-end pt-2'>
-
-                                        <button type='submit' className='flex items-center justify-center h-8 bg-theme-primary text-white rounded-full w-28'>Comment</button>
-
-                                    </div>
-                                </form>
                             </div>
 
+
+                            <div className='col-span-3 w-full overflow-auto h-[70vh] pr-2 md:pr-4  mt-6 md:mt-0'>
+                                <p className=' mb-2'>Total Results: {filteredBlog?.length}</p>
+                                {
+                                    filteredBlog && filteredBlog.map(blog => <BlogCard key={blog.id} blog={blog} setBlogs={setBlogs} refresh={refresh}></BlogCard>)
+                                }
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+
+
+                    </div> : <Loader></Loader>
+            }
         </div>
     );
 };
 
-export default BlogCard;
+export default HomeBlog;
