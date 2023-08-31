@@ -8,7 +8,7 @@ import BlogCard from './BlogCard';
 
 
 
-const homeblog = () => {
+const Homeblog = () => {
 
     const [blogs, setBlogs] = useState(null)
     const [tags, setTags] = useState([])
@@ -95,4 +95,4 @@ const homeblog = () => {
     );
 };
 
-export default homeblog;
+export default Homeblog;
