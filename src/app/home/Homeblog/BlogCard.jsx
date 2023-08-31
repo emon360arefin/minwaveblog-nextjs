@@ -41,7 +41,6 @@ const BlogCard = (props) => {
     // const handleComment = (e, displayName, photoURL, _id) => {
 
     //     e.preventDefault();
-    //     console.log("Comment hit");
 
     //     if (!displayName) {
     //         toast.error("Please Login First ")
@@ -56,7 +55,7 @@ const BlogCard = (props) => {
     //         user, user_img, text
     //     }
 
-    //     console.log(newComment, _id);
+
 
 
     //     fetch(`https://mindwaveblog-server.up.railway.app/api/blogs/${_id}`, {
@@ -68,7 +67,6 @@ const BlogCard = (props) => {
     //     })
     //         .then(res => res.json())
     //         .then(data => {
-    //             console.log("Response Data", data)
     //             fetch(`https://mindwaveblog-server.up.railway.app/api/blogs`)
     //                 .then(res => res.json())
     //                 .then(data => setBlogs(data))
@@ -86,9 +84,9 @@ const BlogCard = (props) => {
             .then(data => {
                 if (data.likes) {
                     setLikes(data?.likes?.length)
-                    console.log("Likes ", data?.likes?.length);
+                   
                     if (data.likes.includes(email)) {
-                        console.log("Got it", email);
+                        
                         setFav(true)
                     }
                 } else {
@@ -132,7 +130,7 @@ const BlogCard = (props) => {
         //                 .then(data => {
 
 
-        //                     console.log("data", data);
+        //                    
 
         //                     if (data.modifiedCount > 0) {
         //                         setFav(true)
@@ -170,7 +168,7 @@ const BlogCard = (props) => {
         //                             .then(data => {
 
 
-        //                                 console.log("data", data);
+        //                                 
 
         //                                 if (data.modifiedCount > 0) {
         //                                     setFav(true)
@@ -209,7 +207,7 @@ const BlogCard = (props) => {
                     })
                         .then(res => res.json())
                         .then(data => {
-                            console.log(data.message);
+                            
                             if (data.message === "removed") {
                                 setFav(false)
                                 toast.error("Removed from favorite")
@@ -220,7 +218,7 @@ const BlogCard = (props) => {
 
                 } else {
                     // Add to the array
-                    console.log("Nothing");
+                    
                     fetch(`https://mindwaveblog-server.up.railway.app/api/blogs/like/${_id}`, {
                         method: 'PUT',
                         headers: {
@@ -230,7 +228,7 @@ const BlogCard = (props) => {
                     })
                         .then(res => res.json())
                         .then(data => {
-                            console.log("Added Data Message", data.message);
+                           
                             if (data.message === "added") {
                                 setFav(true)
                                 toast.success("Added to favorite new")

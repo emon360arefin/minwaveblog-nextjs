@@ -1,19 +1,25 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-
+import useSWR from 'swr'
 import Heading from '@/components/Heading/Heading';
 import Loader from '@/components/Loader/Loader';
 import BlogCard from './BlogCard';
 
 
 
-const HomeBlog = () => {
+const homeblog = () => {
 
     const [blogs, setBlogs] = useState(null)
     const [tags, setTags] = useState([])
     const [newtag, setNewtag] = useState([])
     const [selectedTag, setSelectedTag] = useState('All')
+
+
+    const fetcher = (...args) => fetch(...args).then(res => res.json())
+    const { data, error, isLoading } = useSWR('https://mindwaveblog-server.up.railway.app/api/blogs', fetcher)
+
+    
 
     useEffect(() => {
         fetch(`https://mindwaveblog-server.up.railway.app/api/blogs`)
@@ -22,14 +28,6 @@ const HomeBlog = () => {
                 setBlogs(data)
             })
     }, [])
-
-    const refresh = () => {
-        fetch(`https://mindwaveblog-server.up.railway.app/api/blogs`)
-            .then(res => res.json())
-            .then(data => {
-                setBlogs(data)
-            })
-    }
 
 
     const allTags = blogs && tags.concat(...blogs.map(blog => blog.category));
@@ -45,11 +43,9 @@ const HomeBlog = () => {
 
     if (selectedTag === "All") {
         filteredBlog = blogs;
-        console.log("selectedTag1", selectedTag);
     }
 
 
-    // console.log("selectedTag", selectedTag);
 
 
     return (
@@ -87,7 +83,7 @@ const HomeBlog = () => {
                             <div className='col-span-3 w-full overflow-auto h-[70vh] pr-2 md:pr-4  mt-6 md:mt-0'>
                                 <p className=' mb-2'>Total Results: {filteredBlog?.length}</p>
                                 {
-                                    filteredBlog && filteredBlog.map(blog => <BlogCard key={blog.id} blog={blog} setBlogs={setBlogs} refresh={refresh}></BlogCard>)
+                                    filteredBlog && filteredBlog.map(blog => <BlogCard key={blog.id} blog={blog} setBlogs={setBlogs}></BlogCard>)
                                 }
                             </div>
                         </div>
@@ -99,4 +95,4 @@ const HomeBlog = () => {
     );
 };
 
-export default HomeBlog;
+export default homeblog;
